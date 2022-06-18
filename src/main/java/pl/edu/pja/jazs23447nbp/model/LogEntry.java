@@ -1,6 +1,10 @@
 package pl.edu.pja.jazs23447nbp.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -8,11 +12,21 @@ public class LogEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-
+    private String Currency;
     private Date RangeStart;
     private Date RangeEnd;
+    private LocalDateTime ExecutionDate;
 
-    private Date ExecutionDate;
+    public LogEntry() {
+    }
+
+    public LogEntry(Long id, String currency, Date rangeStart, Date rangeEnd, LocalDateTime executionDate) {
+        Id = id;
+        Currency = currency;
+        RangeStart = rangeStart;
+        RangeEnd = rangeEnd;
+        ExecutionDate = executionDate;
+    }
 
     public Long getId() {
         return Id;
@@ -20,6 +34,14 @@ public class LogEntry {
 
     public void setId(Long id) {
         Id = id;
+    }
+
+    public String getCurrency() {
+        return Currency;
+    }
+
+    public void setCurrency(String currency) {
+        Currency = currency;
     }
 
     public Date getRangeStart() {
@@ -38,11 +60,11 @@ public class LogEntry {
         RangeEnd = rangeEnd;
     }
 
-    public Date getExecutionDate() {
+    public LocalDateTime getExecutionDate() {
         return ExecutionDate;
     }
 
-    public void setExecutionDate(Date executionDate) {
+    public void setExecutionDate(LocalDateTime executionDate) {
         ExecutionDate = executionDate;
     }
 }
