@@ -1,6 +1,7 @@
 package pl.edu.pja.jazs23447nbp.service;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.edu.pja.jazs23447nbp.model.LogCommand;
@@ -22,7 +23,7 @@ public class LogEntryService {
         this.rest = rest;
     }
 
-    public Root get(LogCommand log) {
+    public ResponseEntity<Root> get(LogCommand log) {
         var dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         var executionDate = LocalDateTime.now();
         var pattern = "yyyy-MM-dd";
@@ -43,6 +44,6 @@ public class LogEntryService {
             logEntryRepository.save(logEntry);
         }
 
-        return request.getBody();
+        return request;
     }
 }

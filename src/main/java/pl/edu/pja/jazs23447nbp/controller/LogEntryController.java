@@ -1,6 +1,9 @@
 package pl.edu.pja.jazs23447nbp.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +24,8 @@ public class LogEntryController {
         this.logEntryService = logEntryService;
     }
 
-    @ApiOperation("Returns rates of a currency within a given range.")
+    @ApiOperation(value = "Returns rates of a currency within a given range.")
+    @ApiResponses( value = { @ApiResponse(code = 200, message = "Successful response from NBP API."), @ApiResponse(code = 400, message = "Something went wrong. Invalid params or some other error occurred on the NBP's side.")})
     @GetMapping("/{table}/{currency}/{startDate}/{endDate}")
     public ResponseEntity<Root> getLogEntry(@PathVariable String table, @PathVariable String currency,
                                             @PathVariable Date startDate, @PathVariable Date endDate) {
@@ -33,6 +37,9 @@ public class LogEntryController {
 
         var result = logEntryService.get(command);
 
-        return ResponseEntity.ok(result);
+        if (result.getStatusCode() == HttpStatus.OK)
+            return result;
+        else
+            return ResponseEntity.badRequest().build();
     }
 }
